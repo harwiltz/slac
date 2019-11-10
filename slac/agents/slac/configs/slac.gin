@@ -6,8 +6,6 @@ SlacAgent.critic_input_stop_gradient = True
 # Parameters for ModelDistributionNetwork:
 # ==============================================================================
 ModelDistributionNetwork.base_depth = 32
-ModelDistributionNetwork.latent1_deterministic = False
-ModelDistributionNetwork.latent2_deterministic = False
 ModelDistributionNetwork.kl_analytic = True
 ModelDistributionNetwork.latent1_size = 32
 ModelDistributionNetwork.latent2_size = 256
