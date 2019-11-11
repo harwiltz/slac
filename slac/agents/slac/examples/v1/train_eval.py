@@ -219,7 +219,10 @@ def get_control_timestep(py_env):
   try:
     control_timestep = py_env.dt  # gym
   except AttributeError:
-    control_timestep = py_env.control_timestep()  # dm_control
+    try:
+        control_timestep = py_env.control_timestep()  # dm_control
+    except AttributeError:
+        control_timestep = 1
   return control_timestep
 
 
