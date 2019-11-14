@@ -16,6 +16,7 @@ from absl import flags
 from absl import logging
 from tf_agents.drivers import dynamic_step_driver
 from tf_agents.environments import suite_dm_control
+from tf_agents.environments import suite_gym
 from tf_agents.environments import suite_mujoco
 from tf_agents.environments import tf_py_environment
 from tf_agents.environments import wrappers
@@ -62,7 +63,7 @@ FLAGS = flags.FLAGS
 def get_train_eval_dir(root_dir, universe, env_name, domain_name, task_name,
                        experiment_name):
   root_dir = os.path.expanduser(root_dir)
-  if universe == 'gym':
+  if (universe == 'gym') or (universe == 'mujoco'):
     train_eval_dir = os.path.join(root_dir, universe, env_name,
                                   experiment_name)
   elif universe == 'dm_control':
@@ -81,7 +82,10 @@ def load_environments(universe, env_name=None, domain_name=None, task_name=None,
   The universe can either be gym, in which case domain_name and task_name are
   ignored, or dm_control, in which case env_name is ignored.
   """
-  if universe == 'gym':
+  if universe == "gym":
+      py_env = suite_gym.load(env_name)
+      eval_py_env = suite_gym.load(env_name)
+  elif universe == 'mujoco':
     tf.compat.v1.logging.info(
         'Using environment {} from {} universe.'.format(env_name, universe))
     gym_env_wrappers = [
@@ -231,7 +235,7 @@ def train_eval(
     root_dir,
     experiment_name,
     train_eval_dir=None,
-    universe='gym',
+    universe='mujoco',
     env_name='HalfCheetah-v2',
     domain_name='cheetah',
     task_name='run',
