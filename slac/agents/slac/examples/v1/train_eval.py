@@ -18,6 +18,7 @@ from tf_agents.drivers import dynamic_step_driver
 from tf_agents.environments import suite_dm_control
 from tf_agents.environments import suite_gym
 from tf_agents.environments import suite_mujoco
+from tf_agents.environments import suite_pybullet
 from tf_agents.environments import tf_py_environment
 from tf_agents.environments import wrappers
 from tf_agents.eval import metric_utils
@@ -40,6 +41,7 @@ from slac.agents.slac import model_distribution_network
 from slac.agents.slac import slac_agent
 from slac.environments import dm_control_wrappers
 from slac.environments import gym_wrappers
+from slac.environments import pybullet_wrappers
 from slac.environments import video_wrapper
 from slac.utils import gif_utils
 
@@ -63,7 +65,7 @@ FLAGS = flags.FLAGS
 def get_train_eval_dir(root_dir, universe, env_name, domain_name, task_name,
                        experiment_name):
   root_dir = os.path.expanduser(root_dir)
-  if (universe == 'gym') or (universe == 'mujoco'):
+  if (universe == 'gym') or (universe == 'mujoco') or (universe == 'pybullet'):
     train_eval_dir = os.path.join(root_dir, universe, env_name,
                                   experiment_name)
   elif universe == 'dm_control':
@@ -85,7 +87,7 @@ def load_environments(universe, env_name=None, domain_name=None, task_name=None,
   if universe == "gym":
       py_env = suite_gym.load(env_name)
       eval_py_env = suite_gym.load(env_name)
-  elif universe == 'mujoco':
+  elif (universe == 'mujoco') or (universe == 'pybullet'):
     tf.compat.v1.logging.info(
         'Using environment {} from {} universe.'.format(env_name, universe))
     gym_env_wrappers = [
@@ -109,9 +111,20 @@ def load_environments(universe, env_name=None, domain_name=None, task_name=None,
                           render_kwargs={'height': observation_render_size,
                                          'width': observation_render_size,
                                          'device_id': 1})]  # segfaults if the device is the same as train env
-    py_env = suite_mujoco.load(env_name, gym_env_wrappers=gym_env_wrappers)
-    eval_py_env = suite_mujoco.load(env_name,
-                                    gym_env_wrappers=eval_gym_env_wrappers)
+    if universe == 'mujoco':
+        py_env = suite_mujoco.load(env_name, gym_env_wrappers=gym_env_wrappers)
+        eval_py_env = suite_mujoco.load(env_name,
+                                        gym_env_wrappers=eval_gym_env_wrappers)
+    else:
+        tf.compat.v1.logging.info("LOADING PYBULLET WRAPPER")
+        pybullet_env_wrapper = [
+                functools.partial(pybullet_wrappers.PixelObservationsPyBulletWrapper,
+                          observations_whitelist=observations_whitelist,
+                          render_kwargs={'height': observation_render_size,
+                                         'width': observation_render_size,
+                                         'device_id': 0})]
+        py_env = suite_pybullet.load(env_name,gym_env_wrappers=pybullet_env_wrapper)
+        eval_py_env = suite_pybullet.load(env_name,gym_env_wrappers=pybullet_env_wrapper)
   elif universe == 'dm_control':
     tf.compat.v1.logging.info(
         'Using domain {} and task {} from {} universe.'.format(domain_name,

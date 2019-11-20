@@ -1,0 +1,5 @@
+# Parameters for train_eval:
+# ==============================================================================
+train_eval.universe = 'pybullet'
+train_eval.env_name = 'Walker2DBulletEnv-v0'
+train_eval.action_repeat = 2

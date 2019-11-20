@@ -1,0 +1,140 @@
+# Parameters for ActionRepeat:
+# ==============================================================================
+# None.
+
+# Parameters for slac.actor_distribution_network.ActorDistributionNetwork:
+# ==============================================================================
+# None.
+
+# Parameters for ArraySpec:
+# ==============================================================================
+# None.
+
+# Parameters for as_dataset:
+# ==============================================================================
+as_dataset.single_deterministic_pass = False
+
+# Parameters for AverageEpisodeLengthMetric:
+# ==============================================================================
+AverageEpisodeLengthMetric.batch_size = None
+AverageEpisodeLengthMetric.name = 'AverageEpisodeLength'
+
+# Parameters for AverageReturnMetric:
+# ==============================================================================
+AverageReturnMetric.batch_size = None
+AverageReturnMetric.name = 'AverageReturn'
+
+# Parameters for BatchedPyEnvironment:
+# ==============================================================================
+# None.
+
+# Parameters for BoundedArraySpec:
+# ==============================================================================
+# None.
+
+# Parameters for slac.critic_network.CriticNetwork:
+# ==============================================================================
+# None.
+
+# Parameters for DynamicStepDriver:
+# ==============================================================================
+DynamicStepDriver.transition_observers = None
+
+# Parameters for suite_gym.load:
+# ==============================================================================
+suite_gym.load.discount = 1.0
+suite_gym.load.env_wrappers = ()
+suite_gym.load.max_episode_steps = None
+suite_gym.load.spec_dtype_map = None
+
+# Parameters for suite_pybullet.load:
+# ==============================================================================
+# None.
+
+# Parameters for ModelDistributionNetwork:
+# ==============================================================================
+ModelDistributionNetwork.base_depth = 32
+ModelDistributionNetwork.kl_analytic = True
+ModelDistributionNetwork.latent1_size = 32
+ModelDistributionNetwork.latent2_size = 256
+ModelDistributionNetwork.model_discount = False
+ModelDistributionNetwork.model_reward = True
+ModelDistributionNetwork.name = 'ModelDistributionNetwork'
+ModelDistributionNetwork.reward_stddev = None
+
+# Parameters for SlacAgent:
+# ==============================================================================
+SlacAgent.actor_input_stop_gradient = True
+SlacAgent.critic_input_stop_gradient = True
+SlacAgent.initial_log_alpha = 0.0
+SlacAgent.name = None
+SlacAgent.target_entropy = None
+
+# Parameters for TFPyEnvironment:
+# ==============================================================================
+TFPyEnvironment.check_dims = False
+
+# Parameters for TFUniformReplayBuffer:
+# ==============================================================================
+TFUniformReplayBuffer.dataset_drop_remainder = False
+TFUniformReplayBuffer.dataset_window_shift = None
+TFUniformReplayBuffer.device = 'cpu:*'
+TFUniformReplayBuffer.scope = 'TFUniformReplayBuffer'
+TFUniformReplayBuffer.stateful_dataset = False
+
+# Parameters for TimeLimit:
+# ==============================================================================
+# None.
+
+# Parameters for train_eval:
+# ==============================================================================
+train_eval.action_repeat = 2
+train_eval.actor_fc_layers = (256, 256)
+train_eval.actor_input = 'sequence_action_feature'
+train_eval.actor_learning_rate = 0.0003
+train_eval.alpha_learning_rate = 0.0003
+train_eval.batch_size = 256
+train_eval.collect_steps_per_iteration = 1
+train_eval.compressor_descriptor = 'model'
+train_eval.critic_action_fc_layers = None
+train_eval.critic_input = 'latent'
+train_eval.critic_joint_fc_layers = (256, 256)
+train_eval.critic_learning_rate = 0.0003
+train_eval.critic_obs_fc_layers = None
+train_eval.debug_summaries = False
+train_eval.domain_name = 'cheetah'
+train_eval.env_name = 'Walker2DBulletEnv-v0'
+train_eval.eval_interval = 10000
+train_eval.gamma = 0.99
+train_eval.gpu_allow_growth = False
+train_eval.gpu_memory_limit = None
+train_eval.gradient_clipping = None
+train_eval.initial_collect_steps = 10000
+train_eval.initial_model_train_steps = 100000
+train_eval.log_interval = 1000
+train_eval.model_batch_size = 32
+train_eval.model_learning_rate = 0.0001
+train_eval.model_network_ctor = \
+    @model_distribution_network.ModelDistributionNetwork
+train_eval.model_train_steps_per_iteration = 1
+train_eval.num_eval_episodes = 10
+train_eval.num_images_per_summary = 1
+train_eval.num_iterations = 10000000
+train_eval.policy_checkpoint_interval = 5000
+train_eval.rb_checkpoint_interval = 0
+train_eval.replay_buffer_capacity = 100000
+train_eval.reward_scale_factor = 1.0
+train_eval.sequence_length = 8
+train_eval.summaries_flush_secs = 10
+train_eval.summarize_grads_and_vars = False
+train_eval.summary_interval = 10000
+train_eval.target_update_period = 1
+train_eval.target_update_tau = 0.005
+train_eval.task_name = 'run'
+train_eval.train_checkpoint_interval = 10000
+train_eval.train_steps_per_iteration = 1
+train_eval.universe = 'pybullet'
+
+# Parameters for wrap_env:
+# ==============================================================================
+wrap_env.auto_reset = True
