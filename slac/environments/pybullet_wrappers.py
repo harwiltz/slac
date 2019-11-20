@@ -12,11 +12,16 @@ from tf_agents.environments import wrappers
 class PixelObservationsPyBulletWrapper(wrappers.PyEnvironmentBaseWrapper):
 
   def __init__(self, gym_env, observations_whitelist=None, render_kwargs=None):
+    gym_env._render_width = render_kwargs['width']
+    gym_env._render_height = render_kwargs['height']
     super(PixelObservationsPyBulletWrapper, self).__init__(gym_env)
     if observations_whitelist is None:
       self._observations_whitelist = ['state', 'pixels']
     else:
       self._observations_whitelist = observations_whitelist
+
+    self._render_kwargs = {'width': 64, 'height': 64}
+    self._render_kwargs.update(render_kwargs)
 
     observation_spaces = collections.OrderedDict()
     for observation_name in self._observations_whitelist:
@@ -24,7 +29,7 @@ class PixelObservationsPyBulletWrapper(wrappers.PyEnvironmentBaseWrapper):
         observation_spaces['state'] = self._env.observation_space
       elif observation_name == 'pixels':
         image_shape = (
-          240, 320, 3)
+          self._render_kwargs['height'], self._render_kwargs['width'], 3)
         image_space = gym.spaces.Box(0, 255, shape=image_shape, dtype=np.uint8)
         observation_spaces['pixels'] = image_space
       else:
